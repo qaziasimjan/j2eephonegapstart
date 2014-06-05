@@ -28,9 +28,9 @@
 			<plugin>
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
-				<version>3.0</version>
+				<version>3.0</version>				
 				<configuration>
-					<url>jdbc:mysql://localhost/students?user=root</url>
+					<url>jdbc:mysql://localhost/javaproject?user=root</url>
 				</configuration>
 				<dependencies>
 					<dependency>

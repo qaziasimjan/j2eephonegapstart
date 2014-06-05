@@ -2,38 +2,28 @@
     pageEncoding="ISO-8859-1"%>
 <%@page import="ca.on.conestogac.*"%>
 <%@page import="java.sql.*"%>
+<%@page import="org.json.simple.*"%>
+<%@page import="org.json.simple.parser.*"%>
+<h1>Sibghat</h1>
+<table>
 <%
-
 try{
 	Connection oConnection = OpenShiftDataSource.getConnection(
 			getServletContext().getInitParameter("the.db"));
 	Statement oStmt = oConnection.createStatement();
-	String sSQL = "SELECT * FROM students";
-	ResultSet oRs = oStmt.executeQuery(sSQL);
-	%><table border="1"><%
-	ResultSetMetaData resMetaData =oRs.getMetaData();
-	int nCols = resMetaData.getColumnCount();
-	%><tr><%
-	for (int kCol = 1; kCol <= nCols; kCol++){
-		out.println("<td><b> + resMetaData.getColumn(kCol)</b></td>");
-	}
-	%></tr><%
-	while (oRs.next()) {
-		%><tr><%
-		for (int kCol = 1; kCol <= nCols; kCol++) {
-		      out.print("<td>" + oRs.getString(kCol) + "</td>");
-		      }
-		%></tr><%
-	}
-			%></table>
-			conn.close();
-	<%		
-	//out.println(ResultSetValue.toJsonString(oRs));
+	String sSQL = "SELECT * FROM students";	
+	ResultSet oRs = oStmt.executeQuery(sSQL);	
+	String oNrs = ResultSetValue.toJsonString(oRs);
+	JSONParser parser=new JSONParser();
+	Object obj = parser.parse(oNrs);
+
+	JSONArray list = (JSONArray)obj;
+	//for (int n = 0; n <= oNrs.length(); n++)
+	
+	out.println(list.get(3));
 }
 catch(Exception e)
 {
 	out.println(e.toString());
 }
-
-
 %>
