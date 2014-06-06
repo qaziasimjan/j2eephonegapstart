@@ -1,20 +1,18 @@
 #main {
 	pading-bottom: 30%;
-	background: #ccc;
-	
+	background: #fcfcfc;
+	font-family: arial;	
 }
-h1 {
-	border: 2px grey;
-	padding-left: 15%;
-	color: red;
+h1 {	
+	borde-color: 3px green;
+	padding-left: 10%;
+	color: 000000;	
+	Background: cfcfcf;
 }
 table {
 	padding-left : 10%;
 	border: 5px red;
 }
-
 td {
-	color: green;
-	
-	
+	color: green;		
 }
