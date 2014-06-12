@@ -21,5 +21,10 @@
 		<servlet-name>Migration</servlet-name>
 		<servlet-class>ca.on.conestogac.Migration</servlet-class>
 		<load-on-startup>1</load-on-startup>
-	</servlet>
+	</servlet>	
+	<servlet>
+		<servlet-name>sSqlStatement</servlet-name>
+		<servlet-class>ca.on.conestogac.sSqlStatement</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>	
 </web-app>
