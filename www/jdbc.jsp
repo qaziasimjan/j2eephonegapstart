@@ -37,23 +37,27 @@
 					</tr>
 				</thead>
 
-				<%
-					 
+				<% 
 						try { Connection oConnection = OpenShiftDataSource
 								.getConnection(getServletContext().getInitParameter(
-										"the.db"));
+										"the.db"));						
 						
+						String name = request.getParameter("q");
+						name = name.toLowerCase();
+						String sSQL = "SELECT * FROM firstview WHERE bread LIKE '"
+								+ name + "%' OR manufacturers LIKE '" + name
+								+ "%' OR available LIKE '" + name
+								+ "%' OR storeName LIKE '" + name
+								+ "%' OR storeAddress LIKE '" + name
+								+ "%' OR City LIKE '" + name + "%' OR Postcode LIKE '"
+								+ name + "%'";							
 						Statement oStmt = oConnection.createStatement();												
 						ResultSet oRs = oStmt.executeQuery(sSQL);
 						ResultSetMetaData rsmd = oRs.getMetaData();
 						int nCols = rsmd.getColumnCount();
 
-						String FullPath = "image/";							
-						final Object cold =  out.print("<tr><td>Name</td><td>" + oRs.getString(1)
-								+ "</td></tr><tr><td>Size</td><td>" + oRs.getString(2)
-								+ "</td></tr><tr><td>Price</td><td>" + oRs.getString(3)
-								+ "</td></tr><tr><td>Bread</td><td><img src='" + FullPath
-								+ oRs.getString(4) + "'/></td></tr>");
+						String FullPath = "image/";			
+						 
 				%><tr>
 					<%while (oRs.next()) {
 					%>
@@ -71,8 +75,7 @@
 											+ oRs.getString(15) + "</td><td>"
 											+ oRs.getString(16) + "</td><td>"
 											+ oRs.getString(17) + "</td><td><img src='"
-											+ FullPath + oRs.getString(18) + "'/></td>");
-					return oRs;
+											+ FullPath + oRs.getString(18) + "'/></td>");					
 					%>
 				</tr>	
 				<%
@@ -89,9 +92,13 @@
 					%>
 					
 							<h3>Bread's Details</h3>
-							 <table id ="tableright"><%= cold
+							 <table id ="tableright"><%
 						
-								%></table>			
+								/*</table>Object cold =  out.print("<tr><td>Name</td><td>" + oRs.getString(1)
+								+ "</td></tr><tr><td>Size</td><td>" + oRs.getString(2)
+								+ "</td></tr><tr><td>Price</td><td>" + oRs.getString(3)
+								+ "</td></tr><tr><td>Bread</td><td><img src='" + FullPath
+								+ oRs.getString(4) + "'/></td></tr>");*/%>			
 		</div>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
 	
