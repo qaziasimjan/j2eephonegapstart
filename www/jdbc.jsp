@@ -38,12 +38,13 @@
 				</thead>
 
 				<% 
-						try { Connection oConnection = OpenShiftDataSource
+						 Connection oConnection = OpenShiftDataSource
 								.getConnection(getServletContext().getInitParameter(
 										"the.db"));						
 						
 						String name = request.getParameter("q");
-						name = name.toLowerCase();
+						if(name != null){
+						name = name.toLowerCase();}
 						String sSQL = "SELECT * FROM firstview WHERE bread LIKE '"
 								+ name + "%' OR manufacturers LIKE '" + name
 								+ "%' OR available LIKE '" + name
@@ -56,16 +57,16 @@
 						ResultSetMetaData rsmd = oRs.getMetaData();
 						int nCols = rsmd.getColumnCount();
 
-						String FullPath = "image/";			
-						 
-				%><tr>
-					<%while (oRs.next()) {
+						String FullPath = "image/";	
+						try {
+				int nRow = 0;		 
+				while (oRs.next()) {
 					%>
 				
 				<tr>
 					<%
 						if (oRs.getString(1) != null) {
-									out.print("<td id='tell'><a href='#'/>"
+									out.print("<td ><a class='tell' href='#"+nRow+"'/>"
 											+ oRs.getString(1) + "</td><td>"
 											+ oRs.getString(5) + "</td><td>"
 											+ oRs.getString(11) + "</td><td>"
@@ -76,35 +77,42 @@
 											+ oRs.getString(16) + "</td><td>"
 											+ oRs.getString(17) + "</td><td><img src='"
 											+ FullPath + oRs.getString(18) + "'/></td>");					
-					%>
-				</tr>	
-				<%
-				}//end if						
-							}//end while													
+					}//end if				
+					%></tr><tr id="<%= nRow++ %>" class="hid" ><td>
+					
+					 <table class="right">
+			<tr><td>	<h3>Bread's Details</h3></td></tr>
+						 <% 						 
+						 out.print("<tr><td>Name</td><td> " + oRs.getString(1)
+						+ "</td></tr><tr><td>Size</td><td> " + oRs.getString(2)
+						+ "</td></tr><tr><td>Price</td><td> " + oRs.getString(3)
+						+ "</td></tr><tr><td>Bread</td><td><img src=' " + FullPath
+						+ oRs.getString(4) + "'/></td></tr>");%>
+						</table></td></tr>				
+					<%
+				}//end while
 							oRs.close();
 							oConnection.close();
-							%></table><%
+							
 						}//end try
 						
 					catch (Exception e) {
 						out.println(e.toString());
-					}
-					%>
+					}%>
 					
-							<h3>Bread's Details</h3>
-							 <table id ="tableright"><%
-						
-								/*</table>Object cold =  out.print("<tr><td>Name</td><td>" + oRs.getString(1)
-								+ "</td></tr><tr><td>Size</td><td>" + oRs.getString(2)
-								+ "</td></tr><tr><td>Price</td><td>" + oRs.getString(3)
-								+ "</td></tr><tr><td>Bread</td><td><img src='" + FullPath
-								+ oRs.getString(4) + "'/></td></tr>");*/%>			
+						</table>			
 		</div>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
 	
 		<script>
-		
-		jQuery("#tell").click(function() {alert("hello");});
+		$(".hid").hide();
+		jQuery(".tell").click(function(evt) {			
+			var sHref = $(evt.currentTarget).attr("href");			
+			//alert("hello " + sHref);			
+			$(".hid").hide();
+			$(sHref).show();			
+			//return false;
+			});		
 		</script>
 </body>
 </html>
